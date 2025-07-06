@@ -1,0 +1,9 @@
+*.pyc
+__pycache__
+.git
+.gitignore
+.env
+logs/
+*.md
+.DS_Store
+compose.override.yml

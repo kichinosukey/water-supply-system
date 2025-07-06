@@ -1,0 +1,344 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background: linear-gradient(to bottom, #87CEEB 0%, #E8F5E9 40%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    z-index: 10;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #4CAF50;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.plant-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.plant-container {
+    display: inline-block;
+    position: relative;
+}
+
+.tomato {
+    font-size: 80px;
+    display: inline-block;
+    animation: idle 3s ease-in-out infinite;
+    transition: transform 0.3s;
+}
+
+.tomato.happy {
+    animation: jump 0.5s ease-out;
+}
+
+.plant-base {
+    font-size: 40px;
+    margin-top: -20px;
+}
+
+.status-text {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.duration-control {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #F0F8FF;
+    border-radius: 15px;
+}
+
+.duration-control label {
+    color: #666;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.duration-control input[type="range"] {
+    width: 150px;
+    height: 6px;
+    background: #E0E0E0;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+.duration-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #03A9F4;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.duration-control input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #03A9F4;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#durationValue {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #03A9F4;
+}
+
+.water-button {
+    background: linear-gradient(135deg, #03A9F4, #00BCD4);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 20px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px rgba(3, 169, 244, 0.3);
+}
+
+.water-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(3, 169, 244, 0.4);
+}
+
+.water-button:active {
+    transform: translateY(0);
+}
+
+.water-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.watering-can {
+    font-size: 30px;
+    transition: transform 0.3s;
+}
+
+.water-button.watering .watering-can {
+    animation: pour 1s ease-in-out infinite;
+}
+
+.water-drops {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+.water-button.watering .water-drops {
+    display: block;
+}
+
+.drop {
+    position: absolute;
+    font-size: 20px;
+    animation: fall 1s linear infinite;
+    opacity: 0;
+}
+
+.drop:nth-child(1) {
+    left: -20px;
+    animation-delay: 0s;
+}
+
+.drop:nth-child(2) {
+    left: 0;
+    animation-delay: 0.3s;
+}
+
+.drop:nth-child(3) {
+    left: 20px;
+    animation-delay: 0.6s;
+}
+
+.info-section {
+    background: #F5F5F5;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.info-value {
+    color: #333;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 700;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message.success {
+    color: #4CAF50;
+}
+
+.message.error {
+    color: #F44336;
+}
+
+.weather-decoration {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+}
+
+.sun {
+    animation: rotate 20s linear infinite;
+    display: inline-block;
+}
+
+.cloud {
+    animation: float 10s ease-in-out infinite;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+@keyframes idle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px) scale(1.1); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes pour {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(-30deg); }
+}
+
+@keyframes fall {
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
+    100% {
+        top: 200%;
+        opacity: 0;
+    }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes rainbow {
+    0% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+.rainbow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    animation: rainbow 2s ease-out;
+    pointer-events: none;
+    z-index: 100;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    .tomato {
+        font-size: 60px;
+    }
+    
+    .water-button {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+}

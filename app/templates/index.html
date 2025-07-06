@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌻 おうちの水やりシステム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌻 おうちの水やりシステム 🌻</h1>
+        </header>
+        
+        <main>
+            <div class="plant-section">
+                <div class="plant-container">
+                    <div id="tomato" class="tomato">🍅</div>
+                    <div class="plant-base">🌱</div>
+                </div>
+                <div class="status-text" id="statusText">元気いっぱい！</div>
+            </div>
+            
+            <div class="controls">
+                <div class="duration-control">
+                    <label for="duration">水やり時間：</label>
+                    <input type="range" id="duration" min="1" max="10" value="3" step="1">
+                    <span id="durationValue">3</span>秒
+                </div>
+                <button id="waterButton" class="water-button">
+                    <span class="watering-can">🚿</span>
+                    <span class="button-text">お水をあげる</span>
+                    <div class="water-drops">
+                        <span class="drop">💧</span>
+                        <span class="drop">💧</span>
+                        <span class="drop">💧</span>
+                    </div>
+                </button>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="info-label">最後の水やり:</span>
+                    <span id="lastWatered" class="info-value">まだあげていません</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">今日の水やり回数:</span>
+                    <span id="todayCount" class="info-value">0回</span>
+                </div>
+            </div>
+            
+            <div id="message" class="message"></div>
+        </main>
+        
+        <div class="weather-decoration">
+            <span class="sun">☀️</span>
+            <span class="cloud">☁️</span>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

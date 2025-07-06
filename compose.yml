@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    container_name: watering-system
+    restart: unless-stopped
+    ports:
+      - "8080:3000"
+    environment:
+      - FLASK_ENV=production
+      - GPIO_PIN=17
+      - WATERING_DURATION=3
+      - PORT=3000
+    devices:
+      - /dev/gpiomem:/dev/gpiomem
+    volumes:
+      - ./logs:/app/logs
+      - watering-data:/app/data
+    privileged: true
+
+volumes:
+  watering-data:
