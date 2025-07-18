@@ -193,29 +193,16 @@ docker compose up -d
 ## 7. 開発環境での使用
 
 ### 7.1 GPIO モックモード
-開発PCでテストする場合は、compose.override.ymlを作成：
+開発PCでテストする場合は、環境変数でMOCK_GPIO=trueを設定：
 
-```yaml
-services:
-  web:
-    environment:
-      - MOCK_GPIO=true
-      - FLASK_ENV=development
-    volumes:
-      - ./app:/app
-    command: flask run --host=0.0.0.0 --reload
-    # 開発環境では不要
-    privileged: false
-    devices: []
-```
-
-### 7.2 開発時の起動
 ```bash
-# 開発モードで起動
-docker compose up
-
-# コード変更は自動リロード
+# 環境変数を設定して起動
+MOCK_GPIO=true docker compose up
 ```
+
+### 7.2 開発時の注意点
+- GPIOが無い環境では自動的にモックモードになる
+- モックモード時はログに「モックモードで動作中」と表示される
 
 ## 8. トラブルシューティング
 

@@ -11,8 +11,9 @@ services:
       - WATERING_DURATION=3
     devices:
       - /dev/gpiomem:/dev/gpiomem
+    tmpfs:
+      - /app/logs
     volumes:
-      - ./logs:/app/logs
       - watering-data:/app/data
     privileged: true
 
