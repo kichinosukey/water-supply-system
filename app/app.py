@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 
 gpio_pin = int(os.getenv("GPIO_PIN", "17"))
-watering_duration = int(os.getenv("WATERING_DURATION", "3"))
+watering_duration = int(os.getenv("WATERING_DURATION", "10"))
 
 watering_system = WateringSystem(gpio_pin)
 
@@ -25,12 +25,12 @@ def water():
     data = request.get_json() or {}
     duration = data.get("duration", watering_duration)
 
-    if not isinstance(duration, (int, float)) or duration < 1 or duration > 10:
+    if not isinstance(duration, (int, float)) or duration < 1 or duration > 30:
         return (
             jsonify(
                 {
                     "success": False,
-                    "message": "水やり時間は1〜10秒の間で指定してください",
+                    "message": "水やり時間は1〜30秒の間で指定してください",
                 }
             ),
             400,
