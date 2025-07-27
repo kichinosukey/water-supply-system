@@ -1,31 +1,24 @@
-from flask import Flask, render_template, jsonify, request
-from relay_control import WateringSystem
+from flask import Flask, jsonify, request
 import os
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import requests
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 
-gpio_pin = int(os.getenv("GPIO_PIN", "17"))
-watering_duration = int(os.getenv("WATERING_DURATION", "10"))
+# 必須設定：ESP32のAPIベースURL（例: http://192.168.2.163）
+ESP32_API_BASE = os.getenv("WATERING_API_BASE_URL")
+if not ESP32_API_BASE:
+    raise RuntimeError("環境変数 WATERING_API_BASE_URL が設定されていません")
 
-watering_system = WateringSystem(gpio_pin)
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
+DEFAULT_DURATION = int(os.getenv("WATERING_DURATION", "10"))
 
 
 @app.route("/api/water", methods=["POST"])
 def water():
     data = request.get_json() or {}
-    duration = data.get("duration", watering_duration)
+    duration = data.get("duration", DEFAULT_DURATION)
 
-    if not isinstance(duration, (int, float)) or duration < 1 or duration > 30:
+    if not isinstance(duration, (int, float)) or not (1 <= duration <= 30):
         return (
             jsonify(
                 {
@@ -36,28 +29,41 @@ def water():
             400,
         )
 
-    success, message = watering_system.water_plants(duration)
+    try:
+        response = requests.post(
+            f"{ESP32_API_BASE}/water",
+            json={"duration": duration},
+            timeout=5,
+        )
+        response.raise_for_status()
+        result = response.json()
+        print(f"[DEBUG] posting to {ESP32_API_BASE}/water with duration={duration}")
+        return jsonify(
+            {"success": True, "message": result.get("status", ""), "result": result}
+        )
+    except requests.RequestException as e:
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "ESP32への接続に失敗しました",
+                    "error": str(e),
+                }
+            ),
+            500,
+        )
 
-    return jsonify(
-        {"success": success, "message": message, "status": watering_system.get_status()}
-    ), (200 if success else 409)
 
-
-@app.route("/api/status", methods=["GET"])
-def status():
-    return jsonify(watering_system.get_status())
-
-
-@app.route("/health", methods=["GET"])
-def health():
-    return jsonify({"status": "healthy", "mock_mode": watering_system.mock_mode})
+@app.route("/api/ping", methods=["GET"])
+def ping():
+    try:
+        r = requests.get(f"{ESP32_API_BASE}/ping", timeout=3)
+        return jsonify({"pong": r.text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     debug = os.getenv("FLASK_ENV") == "development"
-
-    logger.info(f"水やりシステム起動中... ポート: {port}")
-    logger.info(f"GPIO Pin: {gpio_pin}, デフォルト水やり時間: {watering_duration}秒")
-
     app.run(host="0.0.0.0", port=port, debug=debug)

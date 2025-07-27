@@ -4,11 +4,9 @@ services:
     container_name: watering-system
     restart: unless-stopped
     ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=production
-      - GPIO_PIN=17
-      - WATERING_DURATION=3
+      - "5001:5000"
+    env_file:
+      - .env
     devices:
       - /dev/gpiomem:/dev/gpiomem
     tmpfs:
