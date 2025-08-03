@@ -4,7 +4,7 @@ services:
     container_name: watering-system
     restart: unless-stopped
     ports:
-      - "5001:5000"
+      - "5001:5001"
     env_file:
       - .env
     devices:
@@ -14,6 +14,12 @@ services:
     volumes:
       - watering-data:/app/data
     privileged: true
+    labels:
+      - "homepage.name=Watering System"
+      - "homepage.group=Automation"
+      - "homepage.icon=fas fa-tint"
+      - "homepage.href=https://github.com/kichinosukey/water-supply-system"
+
 
 volumes:
   watering-data:

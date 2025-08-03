@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import os
 import requests
 
@@ -12,6 +12,9 @@ if not ESP32_API_BASE:
 
 DEFAULT_DURATION = int(os.getenv("WATERING_DURATION", "10"))
 
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
 
 @app.route("/api/water", methods=["POST"])
 def water():
@@ -64,6 +67,6 @@ def ping():
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "5000"))
+    port = int(os.getenv("PORT", "5001"))
     debug = os.getenv("FLASK_ENV") == "development"
     app.run(host="0.0.0.0", port=port, debug=debug)
